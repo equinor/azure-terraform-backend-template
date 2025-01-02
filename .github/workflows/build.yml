@@ -22,7 +22,7 @@ jobs:
         id: build
         shell: bash {0} # Required to check exit code
         run: |
-          git diff --exit-code "$BICEP_FILE_PATH"
+          git diff --merge-base "$GITHUB_BASE_REF" --exit-code "$BICEP_FILE_PATH"
           exit_code="$?"
           if [[ "$exit_code" == 0 ]]; then
             echo "No changes made to Bicep file. Skipping build."
