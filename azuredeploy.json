@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.32.4.45862",
-      "templateHash": "6435624962667709005"
+      "templateHash": "8688306575345230913"
     }
   },
   "parameters": {
@@ -13,6 +13,12 @@
       "type": "string",
       "metadata": {
         "description": "The name of the Storage account to create."
+      }
+    },
+    "containerName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the blob container to create."
       }
     },
     "ipRules": {
@@ -34,7 +40,7 @@
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
       "apiVersion": "2023-05-01",
-      "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), 'default', 'tfstate')]",
+      "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), 'default', parameters('containerName'))]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]"
       ]
@@ -172,9 +178,9 @@
     "containerName": {
       "type": "string",
       "metadata": {
-        "description": "The name of the Storage container that was created."
+        "description": "The name of the blob container that was created."
       },
-      "value": "tfstate"
+      "value": "[parameters('containerName')]"
     }
   }
 }

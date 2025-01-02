@@ -8,7 +8,7 @@ Azure Resource Manager (ARM) template that creates an Azure Storage account to s
 
 - Creates a storage account with the specified name.
 - Configures the storage account according to [security recommendations](https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations).
-- Creates a storage container `tfstate`.
+- Creates a blob container with the specified name.
 - Grants access to the storage account for specified user, group and service principals.
 - Creates a read-only lock to prevent changes to the storage account.
 
@@ -83,6 +83,7 @@ Azure Resource Manager (ARM) template that creates an Azure Storage account to s
 | Name | Description | Type | Default |
 | - | - | - | - |
 | `storageAccountName` | The name of the storage account to create. | `string` | |
+| `containerName` | The name of the blob container to create. | `string` | `tfstate` |
 | `ipRules` | An array of IP addresses or ranges that should be granted access to the storage account. If empty, all IP addresses and ranges will be granted access to the storage account. | `array` | `[]` |
 | `principalIds` | An array of object IDs for user, group or service principals that should be granted access to the storage account. | `array` | `[]` |
 
@@ -91,7 +92,7 @@ Azure Resource Manager (ARM) template that creates an Azure Storage account to s
 | Name | Description | Type |
 | - | - | - |
 | `storageAccountName` | The name of the storage account that was created. | `string` |
-| `containerName` | The name of the storage container that was created. | `string` |
+| `containerName` | The name of the blob container that was created. | `string` |
 
 ## References
 
