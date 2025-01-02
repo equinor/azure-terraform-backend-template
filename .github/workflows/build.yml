@@ -16,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          fetch-depth: 0 # Required to show diff between PR source and target branches
+          # fetch-depth: 0 # Required to show diff between PR source and target branches
           ref: ${{ github.head_ref }} # Required to push commit to PR source branch
 
       - name: Build Bicep file
