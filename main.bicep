@@ -2,7 +2,7 @@
 param storageAccountName string
 
 @description('The name of the blob container to create.')
-param containerName string
+param containerName string = 'tfstate'
 
 @description('An array of IP addresses or IP ranges that should be allowed to bypass the firewall of the Terraform backend. If empty, the firewall will be disabled.')
 param ipRules array = []
