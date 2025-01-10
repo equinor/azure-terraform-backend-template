@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/equinor/azure-terraform-backend-template/compare/v0.2.0...v0.2.1) (2025-01-10)
+
+
+### Bug Fixes
+
+* add default value for parameter `containerName` ([#22](https://github.com/equinor/azure-terraform-backend-template/issues/22)) ([771e7e6](https://github.com/equinor/azure-terraform-backend-template/commit/771e7e60a7ba1503bc7704d6ab2eaf43a65eb79e))
+
 ## [0.2.0](https://github.com/equinor/azure-terraform-backend-template/compare/v0.1.0...v0.2.0) (2025-01-02)
 
 
