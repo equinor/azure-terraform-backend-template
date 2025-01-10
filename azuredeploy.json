@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.32.4.45862",
-      "templateHash": "8688306575345230913"
+      "templateHash": "16091004168660921865"
     }
   },
   "parameters": {
@@ -17,6 +17,7 @@
     },
     "containerName": {
       "type": "string",
+      "defaultValue": "tfstate",
       "metadata": {
         "description": "The name of the blob container to create."
       }
