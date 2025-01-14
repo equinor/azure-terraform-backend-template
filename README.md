@@ -42,13 +42,7 @@ Azure Resource Manager (ARM) template that creates an Azure Storage account to s
 
    Requires Azure role `Contributor` at subscription.
 
-1. Create a deployment at resource group from the template file:
-
-   ```console
-   az deployment group create --name terraform-backend --resource-group <RESOURCE_GROUP_NAME> --template-file azuredeploy.json --parameters storageAccountName=<STORAGE_ACCOUNT_NAME>
-   ```
-
-   Alternatively, create a deployment at resource group from the template URI:
+1. Create a deployment at resource group from the template URI:
 
    ```console
    az deployment group create --name terraform-backend --resource-group <RESOURCE_GROUP_NAME> --template-uri https://raw.githubusercontent.com/equinor/azure-terraform-backend-template/refs/heads/main/azuredeploy.json --parameters storageAccountName=<STORAGE_ACCOUNT_NAME>
