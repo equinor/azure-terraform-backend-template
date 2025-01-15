@@ -50,6 +50,9 @@ Azure Resource Manager (ARM) template that creates an Azure Storage account to s
 
    Requires Azure role `Owner` at resource group.
 
+> [!TIP]
+> Rather than passing parameters as inline values, create a [parameter file](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/parameter-files).
+
 ### Configure Terraform backend
 
 1. Create a Terraform configuration file `main.tf` and add the following backend configuration:
