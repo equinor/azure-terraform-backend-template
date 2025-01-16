@@ -81,6 +81,9 @@ Azure Resource Manager (ARM) template that creates an Azure Storage account to s
 | `ipRules` | An array of IP addresses or ranges that should be granted access to the storage account. If empty, all IP addresses and ranges will be granted access to the storage account. | `array` | `[]` |
 | `principalIds` | An array of object IDs for user, group or service principals that should be granted access to the storage account. | `array` | `[]` |
 
+> [!TIP]
+> Rather than passing parameters as inline values, create a [parameter file](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/parameter-files).
+
 ## Outputs
 
 | Name | Description | Type |
