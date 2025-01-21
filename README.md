@@ -2,6 +2,7 @@
 
 ![GitHub License](https://img.shields.io/github/license/equinor/azure-terraform-backend-template)
 ![GitHub Release](https://img.shields.io/github/v/release/equinor/azure-terraform-backend-template)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
 [![Deploy to Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fequinor%2Fazure-terraform-backend-template%2Fmain%2Fazuredeploy.json)
 
