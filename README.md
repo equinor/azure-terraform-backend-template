@@ -1,5 +1,7 @@
 # Azure Terraform Backend Template
 
+![GitHub License](https://img.shields.io/github/license/equinor/azure-terraform-backend-template)
+
 [![Deploy to Azure](https://docs.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fequinor%2Fazure-terraform-backend-template%2Fmain%2Fazuredeploy.json)
 
 Azure Resource Manager (ARM) template that creates an Azure Storage account to store [Terraform](https://www.terraform.io) [state](https://developer.hashicorp.com/terraform/language/state) files:
