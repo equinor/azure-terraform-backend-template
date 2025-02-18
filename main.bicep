@@ -4,6 +4,9 @@ param storageAccountName string
 @description('The name of the blob container to create.')
 param containerName string = 'tfstate'
 
+@description('Allow authenticating to the storage account using a shared access key?')
+param allowSharedKeyAccess bool = false
+
 @description('An array of IP addresses or IP ranges that should be allowed to bypass the firewall of the Terraform backend. If empty, the firewall will be disabled.')
 param ipRules array = []
 
@@ -22,7 +25,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
     supportsHttpsTrafficOnly: true
     minimumTlsVersion: 'TLS1_2'
     allowBlobPublicAccess: false
-    allowSharedKeyAccess: false
+    allowSharedKeyAccess: allowSharedKeyAccess
     allowCrossTenantReplication: false
     networkAcls: {
       defaultAction: length(ipRules) == 0 ? 'Allow' : 'Deny'
