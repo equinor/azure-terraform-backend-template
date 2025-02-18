@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.32.4.45862",
-      "templateHash": "16091004168660921865"
+      "version": "0.33.93.31351",
+      "templateHash": "1377408791130358480"
     }
   },
   "parameters": {
@@ -20,6 +20,13 @@
       "defaultValue": "tfstate",
       "metadata": {
         "description": "The name of the blob container to create."
+      }
+    },
+    "allowSharedKeyAccess": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Allow authenticating to the storage account using a shared access key?"
       }
     },
     "ipRules": {
@@ -116,7 +123,7 @@
         "supportsHttpsTrafficOnly": true,
         "minimumTlsVersion": "TLS1_2",
         "allowBlobPublicAccess": false,
-        "allowSharedKeyAccess": false,
+        "allowSharedKeyAccess": "[parameters('allowSharedKeyAccess')]",
         "allowCrossTenantReplication": false,
         "networkAcls": {
           "copy": [
