@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/equinor/azure-terraform-backend-template/compare/v0.2.1...v0.3.0) (2025-02-20)
+
+
+### Features
+
+* add parameter `allowSharedAccessKey` ([#26](https://github.com/equinor/azure-terraform-backend-template/issues/26)) ([de9ace5](https://github.com/equinor/azure-terraform-backend-template/commit/de9ace508d27118da8fd1d7c202ca336ffff77b5))
+
 ## [0.2.1](https://github.com/equinor/azure-terraform-backend-template/compare/v0.2.0...v0.2.1) (2025-01-10)
 
 
