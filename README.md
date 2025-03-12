@@ -90,6 +90,8 @@ Azure Resource Manager (ARM) template that creates an Azure Storage account to s
 
 ## Outputs
 
+When the deployment succeeds, the following output values are automatically returned in the results of the deployment:
+
 | Name | Description | Type |
 | - | - | - |
 | `storageAccountName` | The name of the storage account that was created. | `string` |
