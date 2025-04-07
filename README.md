@@ -48,7 +48,7 @@ Azure Resource Manager (ARM) template that creates an Azure Storage account to s
 1. Create a deployment at resource group from the template URI:
 
    ```console
-   az deployment group create --name terraform-backend --resource-group <RESOURCE_GROUP_NAME> --template-uri https://raw.githubusercontent.com/equinor/azure-terraform-backend-template/refs/heads/main/azuredeploy.json --parameters storageAccountName=<STORAGE_ACCOUNT_NAME>
+   az deployment group create --name terraform-backend --resource-group <RESOURCE_GROUP_NAME> --template-uri https://raw.githubusercontent.com/equinor/azure-terraform-backend-template/main/azuredeploy.json --parameters storageAccountName=<STORAGE_ACCOUNT_NAME>
    ```
 
    Requires Azure role `Owner` at resource group.
