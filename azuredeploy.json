@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.33.93.31351",
-      "templateHash": "1377408791130358480"
+      "version": "0.34.44.8038",
+      "templateHash": "2980576246039415553"
     }
   },
   "parameters": {
@@ -148,14 +148,14 @@
       },
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2022-04-01",
-      "scope": "[format('Microsoft.Storage/storageAccounts/{0}', parameters('storageAccountName'))]",
-      "name": "[guid(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), parameters('principalIds')[copyIndex()], subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b'))]",
+      "scope": "[format('Microsoft.Storage/storageAccounts/{0}/blobServices/{1}/containers/{2}', parameters('storageAccountName'), 'default', parameters('containerName'))]",
+      "name": "[guid(resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('containerName')), parameters('principalIds')[copyIndex()], subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b'))]",
       "properties": {
         "principalId": "[parameters('principalIds')[copyIndex()]]",
         "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b')]"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('containerName'))]"
       ]
     },
     {
@@ -168,10 +168,10 @@
         "notes": "Prevent changes to Terraform backend configuration"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]",
-        "[resourceId('Microsoft.Storage/storageAccounts/managementPolicies', parameters('storageAccountName'), 'default')]",
         "roleAssignment",
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts/managementPolicies', parameters('storageAccountName'), 'default')]"
       ]
     }
   ],
