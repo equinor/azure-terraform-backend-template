@@ -37,18 +37,10 @@ Azure Resource Manager (ARM) template that creates an Azure Storage account to s
    az account set --name <SUBSCRIPTION_NAME>
    ```
 
-1. Create resource group:
+1. Create a deployment at subscription from the template URI:
 
    ```console
-   az group create --name <RESOURCE_GROUP_NAME> --location <LOCATION>
-   ```
-
-   Requires Azure role `Contributor` at subscription.
-
-1. Create a deployment at resource group from the template URI:
-
-   ```console
-   az deployment group create --name terraform-backend --resource-group <RESOURCE_GROUP_NAME> --template-uri https://raw.githubusercontent.com/equinor/azure-terraform-backend-template/main/azuredeploy.json --parameters storageAccountName=<STORAGE_ACCOUNT_NAME>
+   az deployment group create --name terraform-backend --location northeurope --template-uri https://raw.githubusercontent.com/equinor/azure-terraform-backend-template/main/azuredeploy.json --parameters storageAccountName=<STORAGE_ACCOUNT_NAME>
    ```
 
    Requires Azure role `Owner` at resource group.
@@ -79,6 +71,7 @@ Azure Resource Manager (ARM) template that creates an Azure Storage account to s
 
 | Name | Description | Type | Default |
 | - | - | - | - |
+| `resourceGroupName` | The name of the resource group to create. | `string` | |
 | `storageAccountName` | The name of the storage account to create. | `string` | |
 | `containerName` | The name of the blob container to create. | `string` | `tfstate` |
 | `allowSharedAccessKey` | Allow authenticating to the storage account using a shared access key? | `bool` | `false` |
@@ -94,6 +87,7 @@ When the deployment succeeds, the following output values are automatically retu
 
 | Name | Description | Type |
 | - | - | - |
+| `resourceGroupName` | The name of the resource group that was created. | `string` |
 | `storageAccountName` | The name of the storage account that was created. | `string` |
 | `containerName` | The name of the blob container that was created. | `string` |
 
