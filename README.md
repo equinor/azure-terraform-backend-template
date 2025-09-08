@@ -12,7 +12,7 @@ Azure Resource Manager (ARM) template that creates an Azure Storage account to s
 - Creates a storage account with the specified name.
 - Configures the storage account according to [security recommendations](https://learn.microsoft.com/en-us/azure/storage/blobs/security-recommendations).
 - Creates a blob container with the specified name.
-- Grants access to the storage account for specified user, group and service principals.
+- Grants access to the blob container for specified user, group and service principals.
 - Creates a read-only lock to prevent changes to the storage account.
 
 ## Prerequisites

@@ -99,8 +99,8 @@ resource roleDefinition 'Microsoft.Authorization/roleDefinitions@2022-05-01-prev
 
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
   for principalId in principalIds: {
-    name: guid(storageAccount.id, principalId, roleDefinition.id)
-    scope: storageAccount
+    name: guid(storageAccount::blobService::container.id, principalId, roleDefinition.id)
+    scope: storageAccount::blobService::container
     properties: {
       principalId: principalId
       roleDefinitionId: roleDefinition.id
