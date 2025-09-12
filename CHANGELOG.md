@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.0](https://github.com/equinor/azure-terraform-backend-template/compare/v0.3.0...v1.0.0) (2025-09-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* add required parameter `resourceGroupName`.
+
+### Features
+
+* create resource group ([#31](https://github.com/equinor/azure-terraform-backend-template/issues/31)) ([c59efe4](https://github.com/equinor/azure-terraform-backend-template/commit/c59efe46e92b0ea34f6c06ff0142a4d005a99b1d))
+* create role assignments at container scope ([#30](https://github.com/equinor/azure-terraform-backend-template/issues/30)) ([851e357](https://github.com/equinor/azure-terraform-backend-template/commit/851e357edecd92165d05c4928668944745493a89))
+
 ## [0.3.0](https://github.com/equinor/azure-terraform-backend-template/compare/v0.2.1...v0.3.0) (2025-02-20)
 
 
