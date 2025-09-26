@@ -2,8 +2,8 @@ name: Build
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main]
+    paths: ["**/*.bicep"]
 
 jobs:
   bicep-build:
@@ -16,33 +16,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          fetch-depth: 0 # Required to show diff between PR source and target branch
-          ref: ${{ github.head_ref }} # Required to push commit to PR source branch
+          ref: ${{ github.head_ref }} # Required to push commit to PR
 
       - name: Build Bicep file
-        id: build
-        shell: bash {0} # Required to check exit code
-        run: |
-          git diff --exit-code "origin/$GITHUB_BASE_REF" "$BICEP_FILE_PATH"
-          exit_code="$?"
-          if [[ "$exit_code" == 0 ]]; then
-            echo "No changes made to Bicep file. Skipping build."
-            exit "$exit_code"
-          fi
-
-          az bicep build --file "$BICEP_FILE_PATH" --outfile "$OUTPUT_FILE_PATH"
-          exit_code="$?"
-          if [[ "$exit_code" != 0 ]]; then
-            exit "$exit_code"
-          fi
-
-          git diff --exit-code "$OUTPUT_FILE_PATH"
-          exit_code="$?"
-
-          echo "exit-code=$exit_code" >> "$GITHUB_OUTPUT"
+        run: az bicep build --file "$BICEP_FILE_PATH" --outfile "$OUTPUT_FILE_PATH"
 
       - name: Push commit
-        if: steps.build.outputs.exit-code != 0
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
