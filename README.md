@@ -1,9 +1,10 @@
 # Azure Terraform Backend Template
 
-[![GitHub License](https://img.shields.io/github/license/equinor/azure-terraform-backend-template)](LICENSE)
 [![GitHub Release](https://img.shields.io/github/v/release/equinor/azure-terraform-backend-template)](https://github.com/equinor/azure-terraform-backend-template/releases/latest)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
-[![SCM Compliance](https://scm-compliance-api.radix.equinor.com/repos/equinor/azure-terraform-backend-template/badge)](https://developer.equinor.com/governance/scm-policy/)
+[![GitHub contributors](https://img.shields.io/github/contributors/equinor/azure-terraform-backend-template)](https://github.com/equinor/azure-terraform-backend-template/graphs/contributors)
+[![GitHub Issues](https://img.shields.io/github/issues/equinor/azure-terraform-backend-template)](https://github.com/equinor/azure-terraform-backend-template/issues)
+[![GitHub Pull requests](https://img.shields.io/github/issues-pr/equinor/azure-terraform-backend-template)](https://github.com/equinor/azure-terraform-backend-template/pulls)
+[![GitHub License](https://img.shields.io/github/license/equinor/azure-terraform-backend-template)](https://github.com/equinor/azure-terraform-backend-template/blob/main/LICENSE)
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fequinor%2Fazure-terraform-backend-template%2Fmain%2Fazuredeploy.json)
 
@@ -37,18 +38,10 @@ Azure Resource Manager (ARM) template that creates an Azure Storage account to s
    az account set --name <SUBSCRIPTION_NAME>
    ```
 
-1. Create resource group:
+1. Create a deployment at subscription from the template URI:
 
    ```console
-   az group create --name <RESOURCE_GROUP_NAME> --location <LOCATION>
-   ```
-
-   Requires Azure role `Contributor` at subscription.
-
-1. Create a deployment at resource group from the template URI:
-
-   ```console
-   az deployment group create --name terraform-backend --resource-group <RESOURCE_GROUP_NAME> --template-uri https://raw.githubusercontent.com/equinor/azure-terraform-backend-template/main/azuredeploy.json --parameters storageAccountName=<STORAGE_ACCOUNT_NAME>
+   az deployment group create --name terraform-backend --location northeurope --template-uri https://raw.githubusercontent.com/equinor/azure-terraform-backend-template/main/azuredeploy.json --parameters resourceGroupName=<RESOURCE_GROUP_NAME> storageAccountName=<STORAGE_ACCOUNT_NAME>
    ```
 
    Requires Azure role `Owner` at resource group.
@@ -79,6 +72,7 @@ Azure Resource Manager (ARM) template that creates an Azure Storage account to s
 
 | Name | Description | Type | Default |
 | - | - | - | - |
+| `resourceGroupName` | The name of the resource group to create. | `string` | |
 | `storageAccountName` | The name of the storage account to create. | `string` | |
 | `containerName` | The name of the blob container to create. | `string` | `tfstate` |
 | `allowSharedAccessKey` | Allow authenticating to the storage account using a shared access key? | `bool` | `false` |
@@ -94,6 +88,7 @@ When the deployment succeeds, the following output values are automatically retu
 
 | Name | Description | Type |
 | - | - | - |
+| `resourceGroupName` | The name of the resource group that was created. | `string` |
 | `storageAccountName` | The name of the storage account that was created. | `string` |
 | `containerName` | The name of the blob container that was created. | `string` |
 

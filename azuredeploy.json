@@ -1,14 +1,20 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.34.44.8038",
-      "templateHash": "2980576246039415553"
+      "version": "0.37.4.10188",
+      "templateHash": "17744925513927775689"
     }
   },
   "parameters": {
+    "resourceGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the resource group to create."
+      }
+    },
     "storageAccountName": {
       "type": "string",
       "metadata": {
@@ -44,151 +50,241 @@
       }
     }
   },
+  "variables": {
+    "location": "[deployment().location]"
+  },
   "resources": [
     {
-      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-      "apiVersion": "2023-05-01",
-      "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), 'default', parameters('containerName'))]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]"
-      ]
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2025-04-01",
+      "name": "[parameters('resourceGroupName')]",
+      "location": "[variables('location')]"
     },
     {
-      "type": "Microsoft.Storage/storageAccounts/blobServices",
-      "apiVersion": "2023-05-01",
-      "name": "[format('{0}/{1}', parameters('storageAccountName'), 'default')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "storage",
+      "resourceGroup": "[parameters('resourceGroupName')]",
       "properties": {
-        "deleteRetentionPolicy": {
-          "allowPermanentDelete": false,
-          "enabled": true,
-          "days": 30
+        "expressionEvaluationOptions": {
+          "scope": "inner"
         },
-        "containerDeleteRetentionPolicy": {
-          "enabled": true,
-          "days": 30
+        "mode": "Incremental",
+        "parameters": {
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "containerName": {
+            "value": "[parameters('containerName')]"
+          },
+          "allowSharedKeyAccess": {
+            "value": "[parameters('allowSharedKeyAccess')]"
+          },
+          "ipRules": {
+            "value": "[parameters('ipRules')]"
+          },
+          "principalIds": {
+            "value": "[parameters('principalIds')]"
+          }
         },
-        "isVersioningEnabled": true,
-        "changeFeed": {
-          "enabled": true
-        }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
-      ]
-    },
-    {
-      "type": "Microsoft.Storage/storageAccounts/managementPolicies",
-      "apiVersion": "2023-05-01",
-      "name": "[format('{0}/{1}', parameters('storageAccountName'), 'default')]",
-      "properties": {
-        "policy": {
-          "rules": [
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.37.4.10188",
+              "templateHash": "7753965063800034058"
+            }
+          },
+          "parameters": {
+            "storageAccountName": {
+              "type": "string",
+              "metadata": {
+                "description": "The name of the Storage account to create."
+              }
+            },
+            "containerName": {
+              "type": "string",
+              "defaultValue": "tfstate",
+              "metadata": {
+                "description": "The name of the blob container to create."
+              }
+            },
+            "allowSharedKeyAccess": {
+              "type": "bool",
+              "defaultValue": false,
+              "metadata": {
+                "description": "Allow authenticating to the storage account using a shared access key?"
+              }
+            },
+            "ipRules": {
+              "type": "array",
+              "defaultValue": [],
+              "metadata": {
+                "description": "An array of IP addresses or IP ranges that should be allowed to bypass the firewall of the Terraform backend. If empty, the firewall will be disabled."
+              }
+            },
+            "principalIds": {
+              "type": "array",
+              "defaultValue": [],
+              "metadata": {
+                "description": "An array of object IDs of user, group or service principals that should have access to the Terraform backend."
+              }
+            }
+          },
+          "resources": [
             {
-              "name": "Delete old tfstate versions",
-              "enabled": true,
-              "type": "Lifecycle",
-              "definition": {
-                "actions": {
-                  "version": {
-                    "delete": {
-                      "daysAfterCreationGreaterThan": 30
-                    }
-                  }
+              "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+              "apiVersion": "2023-05-01",
+              "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), 'default', parameters('containerName'))]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]"
+              ]
+            },
+            {
+              "type": "Microsoft.Storage/storageAccounts/blobServices",
+              "apiVersion": "2023-05-01",
+              "name": "[format('{0}/{1}', parameters('storageAccountName'), 'default')]",
+              "properties": {
+                "deleteRetentionPolicy": {
+                  "allowPermanentDelete": false,
+                  "enabled": true,
+                  "days": 30
                 },
-                "filters": {
-                  "blobTypes": [
-                    "blockBlob"
+                "containerDeleteRetentionPolicy": {
+                  "enabled": true,
+                  "days": 30
+                },
+                "isVersioningEnabled": true,
+                "changeFeed": {
+                  "enabled": true
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Storage/storageAccounts/managementPolicies",
+              "apiVersion": "2023-05-01",
+              "name": "[format('{0}/{1}', parameters('storageAccountName'), 'default')]",
+              "properties": {
+                "policy": {
+                  "rules": [
+                    {
+                      "name": "Delete old tfstate versions",
+                      "enabled": true,
+                      "type": "Lifecycle",
+                      "definition": {
+                        "actions": {
+                          "version": {
+                            "delete": {
+                              "daysAfterCreationGreaterThan": 30
+                            }
+                          }
+                        },
+                        "filters": {
+                          "blobTypes": [
+                            "blockBlob"
+                          ]
+                        }
+                      }
+                    }
                   ]
                 }
-              }
-            }
-          ]
-        }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
-      ]
-    },
-    {
-      "type": "Microsoft.Storage/storageAccounts",
-      "apiVersion": "2023-05-01",
-      "name": "[parameters('storageAccountName')]",
-      "location": "[resourceGroup().location]",
-      "sku": {
-        "name": "Standard_GRS"
-      },
-      "kind": "StorageV2",
-      "properties": {
-        "accessTier": "Hot",
-        "supportsHttpsTrafficOnly": true,
-        "minimumTlsVersion": "TLS1_2",
-        "allowBlobPublicAccess": false,
-        "allowSharedKeyAccess": "[parameters('allowSharedKeyAccess')]",
-        "allowCrossTenantReplication": false,
-        "networkAcls": {
-          "copy": [
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+              ]
+            },
             {
-              "name": "ipRules",
-              "count": "[length(parameters('ipRules'))]",
-              "input": {
-                "value": "[parameters('ipRules')[copyIndex('ipRules')]]",
-                "action": "Allow"
+              "type": "Microsoft.Storage/storageAccounts",
+              "apiVersion": "2023-05-01",
+              "name": "[parameters('storageAccountName')]",
+              "location": "[resourceGroup().location]",
+              "sku": {
+                "name": "Standard_GRS"
+              },
+              "kind": "StorageV2",
+              "properties": {
+                "accessTier": "Hot",
+                "supportsHttpsTrafficOnly": true,
+                "minimumTlsVersion": "TLS1_2",
+                "allowBlobPublicAccess": false,
+                "allowSharedKeyAccess": "[parameters('allowSharedKeyAccess')]",
+                "allowCrossTenantReplication": false,
+                "networkAcls": {
+                  "copy": [
+                    {
+                      "name": "ipRules",
+                      "count": "[length(parameters('ipRules'))]",
+                      "input": {
+                        "value": "[parameters('ipRules')[copyIndex('ipRules')]]",
+                        "action": "Allow"
+                      }
+                    }
+                  ],
+                  "defaultAction": "[if(equals(length(parameters('ipRules')), 0), 'Allow', 'Deny')]",
+                  "virtualNetworkRules": []
+                }
               }
+            },
+            {
+              "copy": {
+                "name": "roleAssignment",
+                "count": "[length(parameters('principalIds'))]"
+              },
+              "type": "Microsoft.Authorization/roleAssignments",
+              "apiVersion": "2022-04-01",
+              "scope": "[format('Microsoft.Storage/storageAccounts/{0}/blobServices/{1}/containers/{2}', parameters('storageAccountName'), 'default', parameters('containerName'))]",
+              "name": "[guid(resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('containerName')), parameters('principalIds')[copyIndex()], subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b'))]",
+              "properties": {
+                "principalId": "[parameters('principalIds')[copyIndex()]]",
+                "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('containerName'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Authorization/locks",
+              "apiVersion": "2020-05-01",
+              "scope": "[format('Microsoft.Storage/storageAccounts/{0}', parameters('storageAccountName'))]",
+              "name": "Terraform",
+              "properties": {
+                "level": "ReadOnly",
+                "notes": "Prevent changes to Terraform backend configuration"
+              },
+              "dependsOn": [
+                "roleAssignment",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts/managementPolicies', parameters('storageAccountName'), 'default')]"
+              ]
             }
           ],
-          "defaultAction": "[if(equals(length(parameters('ipRules')), 0), 'Allow', 'Deny')]",
-          "virtualNetworkRules": []
+          "outputs": {
+            "storageAccountName": {
+              "type": "string",
+              "metadata": {
+                "description": "The name of the Storage account that was created."
+              },
+              "value": "[parameters('storageAccountName')]"
+            },
+            "containerName": {
+              "type": "string",
+              "metadata": {
+                "description": "The name of the blob container that was created."
+              },
+              "value": "[parameters('containerName')]"
+            }
+          }
         }
-      }
-    },
-    {
-      "copy": {
-        "name": "roleAssignment",
-        "count": "[length(parameters('principalIds'))]"
-      },
-      "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2022-04-01",
-      "scope": "[format('Microsoft.Storage/storageAccounts/{0}/blobServices/{1}/containers/{2}', parameters('storageAccountName'), 'default', parameters('containerName'))]",
-      "name": "[guid(resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('containerName')), parameters('principalIds')[copyIndex()], subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b'))]",
-      "properties": {
-        "principalId": "[parameters('principalIds')[copyIndex()]]",
-        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b')]"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('containerName'))]"
-      ]
-    },
-    {
-      "type": "Microsoft.Authorization/locks",
-      "apiVersion": "2020-05-01",
-      "scope": "[format('Microsoft.Storage/storageAccounts/{0}', parameters('storageAccountName'))]",
-      "name": "Terraform",
-      "properties": {
-        "level": "ReadOnly",
-        "notes": "Prevent changes to Terraform backend configuration"
-      },
-      "dependsOn": [
-        "roleAssignment",
-        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
-        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]",
-        "[resourceId('Microsoft.Storage/storageAccounts/managementPolicies', parameters('storageAccountName'), 'default')]"
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('resourceGroupName'))]"
       ]
     }
-  ],
-  "outputs": {
-    "storageAccountName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the Storage account that was created."
-      },
-      "value": "[parameters('storageAccountName')]"
-    },
-    "containerName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the blob container that was created."
-      },
-      "value": "[parameters('containerName')]"
-    }
-  }
+  ]
 }
