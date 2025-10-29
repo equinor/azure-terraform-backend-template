@@ -1,11 +1,5 @@
 # Azure Terraform Backend Template
 
-[![GitHub Release](https://img.shields.io/github/v/release/equinor/azure-terraform-backend-template)](https://github.com/equinor/azure-terraform-backend-template/releases/latest)
-[![GitHub contributors](https://img.shields.io/github/contributors/equinor/azure-terraform-backend-template)](https://github.com/equinor/azure-terraform-backend-template/graphs/contributors)
-[![GitHub Issues](https://img.shields.io/github/issues/equinor/azure-terraform-backend-template)](https://github.com/equinor/azure-terraform-backend-template/issues)
-[![GitHub Pull requests](https://img.shields.io/github/issues-pr/equinor/azure-terraform-backend-template)](https://github.com/equinor/azure-terraform-backend-template/pulls)
-[![GitHub License](https://img.shields.io/github/license/equinor/azure-terraform-backend-template)](https://github.com/equinor/azure-terraform-backend-template/blob/main/LICENSE)
-
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fequinor%2Fazure-terraform-backend-template%2Fmain%2Fazuredeploy.json)
 
 Azure Resource Manager (ARM) template that creates an Azure Storage account to store [Terraform](https://www.terraform.io) [state](https://developer.hashicorp.com/terraform/language/state) files:
