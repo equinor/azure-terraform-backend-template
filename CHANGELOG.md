@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/equinor/azure-terraform-backend-template/compare/v1.0.0...v1.1.0) (2026-01-12)
+
+
+### Features
+
+* reduce privileges of role assignment ([#36](https://github.com/equinor/azure-terraform-backend-template/issues/36)) ([8d348f4](https://github.com/equinor/azure-terraform-backend-template/commit/8d348f489a8b84749613c57d67e9204f6c197259))
+
 ## [1.0.0](https://github.com/equinor/azure-terraform-backend-template/compare/v0.3.0...v1.0.0) (2025-09-12)
 
 
