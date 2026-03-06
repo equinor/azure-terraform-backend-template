@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/equinor/azure-terraform-backend-template/compare/v1.1.0...v1.1.1) (2026-03-06)
+
+
+### Bug Fixes
+
+* deployment already exists in location ([#38](https://github.com/equinor/azure-terraform-backend-template/issues/38)) ([038f5a9](https://github.com/equinor/azure-terraform-backend-template/commit/038f5a9b074b8ef3dbedf0b6fb5e713bef124636))
+
 ## [1.1.0](https://github.com/equinor/azure-terraform-backend-template/compare/v1.0.0...v1.1.0) (2026-01-12)
 
 
