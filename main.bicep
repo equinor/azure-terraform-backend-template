@@ -18,6 +18,8 @@ param ipRules array = []
 @description('An array of object IDs of user, group or service principals that should have access to the Terraform backend.')
 param principalIds array = []
 
+param storageDeploymentName string = 'storage-${utcnow()}'
+
 var location = deployment().location
 
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2025-04-01' = {
@@ -26,7 +28,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2025-04-01' = {
 }
 
 module storage 'modules/storage.bicep' = {
-  name: 'storage'
+  name: storageDeploymentName
   scope: resourceGroup
   params: {
     storageAccountName: storageAccountName
