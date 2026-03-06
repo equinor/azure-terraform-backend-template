@@ -18,7 +18,7 @@ param ipRules array = []
 @description('An array of object IDs of user, group or service principals that should have access to the Terraform backend.')
 param principalIds array = []
 
-param storageDeploymentName string = 'storage-${utcnow()}'
+param storageDeploymentName string = 'storage-${utcNow()}'
 
 var location = deployment().location
 
