@@ -19,7 +19,7 @@ param ipRules array = []
 param principalIds array = []
 
 @description('An array of object IDs of user, group or service principals that should have read-only access to the Terraform backend.')
-param readerPrincipalIds array = []
+param readerPrincipalIds array = [] // Rebuild azuredeploy.json to include readerPrincipalIds (see #42)
 
 param storageDeploymentName string = 'storage-${utcNow()}'
 
