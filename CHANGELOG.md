@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/equinor/azure-terraform-backend-template/compare/v1.1.1...v1.2.0) (2026-04-24)
+
+
+### Features
+
+* add readerPrincipalIds parameter for read-only access ([#40](https://github.com/equinor/azure-terraform-backend-template/issues/40)) ([8a54f2f](https://github.com/equinor/azure-terraform-backend-template/commit/8a54f2fc83b866faa5d793917b8712fdea768e3f))
+
 ## [1.1.1](https://github.com/equinor/azure-terraform-backend-template/compare/v1.1.0...v1.1.1) (2026-03-06)
 
 
