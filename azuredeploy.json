@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.41.2.15936",
-      "templateHash": "846771065755221727"
+      "version": "0.42.1.51946",
+      "templateHash": "945603582104507890"
     }
   },
   "parameters": {
@@ -49,6 +49,13 @@
         "description": "An array of object IDs of user, group or service principals that should have access to the Terraform backend."
       }
     },
+    "readerPrincipalIds": {
+      "type": "array",
+      "defaultValue": [],
+      "metadata": {
+        "description": "An array of object IDs of user, group or service principals that should have read-only access to the Terraform backend."
+      }
+    },
     "storageDeploymentName": {
       "type": "string",
       "defaultValue": "[format('storage-{0}', utcNow())]"
@@ -89,6 +96,9 @@
           },
           "principalIds": {
             "value": "[parameters('principalIds')]"
+          },
+          "readerPrincipalIds": {
+            "value": "[parameters('readerPrincipalIds')]"
           }
         },
         "template": {
@@ -97,8 +107,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.41.2.15936",
-              "templateHash": "16468951907653061640"
+              "version": "0.42.1.51946",
+              "templateHash": "16565715197128154576"
             }
           },
           "parameters": {
@@ -134,6 +144,13 @@
               "defaultValue": [],
               "metadata": {
                 "description": "An array of object IDs of user, group or service principals that should have access to the Terraform backend."
+              }
+            },
+            "readerPrincipalIds": {
+              "type": "array",
+              "defaultValue": [],
+              "metadata": {
+                "description": "An array of object IDs of user, group or service principals that should have read-only access to the Terraform backend."
               }
             }
           },
@@ -252,6 +269,23 @@
               ]
             },
             {
+              "copy": {
+                "name": "readerRoleAssignment",
+                "count": "[length(parameters('readerPrincipalIds'))]"
+              },
+              "type": "Microsoft.Authorization/roleAssignments",
+              "apiVersion": "2022-04-01",
+              "scope": "[resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('containerName'))]",
+              "name": "[guid(resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('containerName')), parameters('readerPrincipalIds')[copyIndex()], subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1'))]",
+              "properties": {
+                "principalId": "[parameters('readerPrincipalIds')[copyIndex()]]",
+                "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices/containers', parameters('storageAccountName'), 'default', parameters('containerName'))]"
+              ]
+            },
+            {
               "type": "Microsoft.Authorization/locks",
               "apiVersion": "2020-05-01",
               "scope": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
@@ -261,6 +295,7 @@
                 "notes": "Prevent changes to Terraform backend configuration"
               },
               "dependsOn": [
+                "readerRoleAssignment",
                 "roleAssignment",
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
                 "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]",
