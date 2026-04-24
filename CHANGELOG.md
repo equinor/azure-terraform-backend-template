@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/equinor/azure-terraform-backend-template/compare/v1.2.0...v1.2.1) (2026-04-24)
+
+
+### Bug Fixes
+
+* rebuild azuredeploy.json to include readerPrincipalIds ([#42](https://github.com/equinor/azure-terraform-backend-template/issues/42)) ([d36415f](https://github.com/equinor/azure-terraform-backend-template/commit/d36415fa5be3faea25926a67fc32529ae8329b98))
+
 ## [1.2.0](https://github.com/equinor/azure-terraform-backend-template/compare/v1.1.1...v1.2.0) (2026-04-24)
 
 
