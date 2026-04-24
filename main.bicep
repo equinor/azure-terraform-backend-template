@@ -18,6 +18,9 @@ param ipRules array = []
 @description('An array of object IDs of user, group or service principals that should have access to the Terraform backend.')
 param principalIds array = []
 
+@description('An array of object IDs of user, group or service principals that should have read-only access to the Terraform backend.')
+param readerPrincipalIds array = []
+
 param storageDeploymentName string = 'storage-${utcNow()}'
 
 var location = deployment().location
@@ -36,5 +39,6 @@ module storage 'modules/storage.bicep' = {
     allowSharedKeyAccess: allowSharedKeyAccess
     ipRules: ipRules
     principalIds: principalIds
+    readerPrincipalIds: readerPrincipalIds
   }
 }
