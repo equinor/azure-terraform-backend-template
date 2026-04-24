@@ -13,6 +13,9 @@ param ipRules array = []
 @description('An array of object IDs of user, group or service principals that should have access to the Terraform backend.')
 param principalIds array = []
 
+@description('An array of object IDs of user, group or service principals that should have read-only access to the Terraform backend.')
+param readerPrincipalIds array = []
+
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   name: storageAccountName
   location: resourceGroup().location
@@ -97,6 +100,11 @@ resource roleDefinition 'Microsoft.Authorization/roleDefinitions@2022-05-01-prev
   scope: subscription()
 }
 
+resource readerRoleDefinition 'Microsoft.Authorization/roleDefinitions@2022-05-01-preview' existing = {
+  name: '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1' // Storage Blob Data Reader
+  scope: subscription()
+}
+
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
   for principalId in principalIds: {
     name: guid(storageAccount::blobService::container.id, principalId, roleDefinition.id)
@@ -108,10 +116,21 @@ resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
   }
 ]
 
+resource readerRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = [
+  for principalId in readerPrincipalIds: {
+    name: guid(storageAccount::blobService::container.id, principalId, readerRoleDefinition.id)
+    scope: storageAccount::blobService::container
+    properties: {
+      principalId: principalId
+      roleDefinitionId: readerRoleDefinition.id
+    }
+  }
+]
+
 resource lock 'Microsoft.Authorization/locks@2020-05-01' = {
   name: 'Terraform'
   scope: storageAccount
-  dependsOn: [storageAccount::blobService, storageAccount::managementPolicy, roleAssignment] // Lock must be created last
+  dependsOn: [storageAccount::blobService, storageAccount::managementPolicy, roleAssignment, readerRoleAssignment] // Lock must be created last
   properties: {
     level: 'ReadOnly'
     notes: 'Prevent changes to Terraform backend configuration'
